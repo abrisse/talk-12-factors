@@ -1,0 +1,9 @@
+---------------------------------------------
+INTRO
+---------------------------------------------
+
+Bonsoir. Ce soir je vais vous présenter l'une des méthodologies de développement les plus importantes pour moi. Certains la connaissent peut être déjà, d'autres vont la découvrir. The Twelve-Factor App est une méthodologie pour construire des applications de type SaaS. Elle s'adresse aux développeurs qui construisent ce type d'application ainsi qu'aux sys-admins qui les deploient et gère. Elle est complètement agnostique des languages et des services back-ends utilisés.
+
+Elle a été rédigé par des développeurs de la plateforme Heroku (PaaS) qui ont été temoins du développement, deploiement et scalabilité de centaines de milliers d'applications.
+
+10 minutes c'est court pour vous présenter toute la méthodologie, donc je ne pourrai pas rentrer en détails sur tous les points que je cite.

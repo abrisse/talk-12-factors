@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Clermont'ech - The Twelve-Factors App</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<section>
+						<h1>The Twelve-Factor App</h1>					
+						<h3>Methodology for building saas apps</h3>
+						<img src="images/symbol.png" style="border: 0px" />
+						<p>
+							<small>Presented by <a href="http://twitter.com/aymericbrisse">@aymericbrisse</a></small>
+						</p>
+						<p>
+						    <small>Semantic Web &#38; Ruby enthusiast</small>
+						</p>
+					</section>
+
+					<section>
+						<h2>Objectives</h2>		
+						<ul>
+							<li>Raise awareness of some systemic problems of modern application development</li>
+							<li>Provide a shared vocabulary for discussing those problems</li>
+							<li>Offer a set of broad conceptual solutions to those problems</li>
+						</ul>		
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<section>
+						<h2>I. Codebase</h2>
+						<p>One codebase tracked in revision control, many deploys</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Always use a <strong>version control system</strong> to track the code <br/> (<a href="#">Git</a>, <a href="#">Mercurial</a>, <a href="#">Subversion</a>)</li>
+							<li class="fragment"><strong>One</strong> codebase per application</li>
+							<li class="fragment"><strong>No</strong> multiple apps sharing the same code</li>
+							<li class="fragment"><strong>Multiple deploys</strong> per application<br/><img alt="One codebase maps to many deploys" src="images/codebase-deploys.png"></li>							
+							<li class="fragment">Same codebase accross all deploys, <strong>multiple versions</strong></li>
+						</ul>					
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<section>
+						<h2>II. Dependencies</h2>
+						<p>Explicitly declare and isolate dependencies</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Each language offers a <strong>packaging system</strong> for librairies (<a href="#">CPAN</a>, <a href="#">Rubygems</a>, etc.)</li>
+							<li class="fragment">Never rely on implicit existence of <strong>system-wide packages</strong></li>
+							<li class="fragment">Use a <strong>dependency declaration</strong> manifest (<a href="#">bundler</a>, <a href="#">pip</a>)
+							<pre><code>bundle install</code></pre></li>
+							<li class="fragment">Use a <strong>dependency isolation</strong> tool - (<a href="#">bundler</a>, <a href="#">virtualenv</a>)
+							<pre><code>bundle exec</code></pre></li>
+							<li class="fragment">Simplifies <strong>setup</strong> for new developers</li>
+							<li class="fragment">Never rely on implicit existence of any <strong>system tools</strong> (vendoring)</li>						
+						</ul>					
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<section>
+						<h2>III. Config</h2>
+						<p>Store config in the environment</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Config is what can <strong>change</strong> between deploys (credentials, services hostname, etc.)</li>
+							<li class="fragment">Strict <strong>separation</strong> of config from code (config change, code does not): do not store config as constants in code</li>
+							<li class="fragment">Store config in <strong>environment variables</strong></li>
+							<li class="fragment">They are language / framework / OS-agnostic (unlike custom files or Java System Properties)</li>
+							<li class="fragment">Avoid <strong>config grouping</strong> (development/staging/production), it does not scale</li>					
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<section>
+						<h2>IV. Backing Services</h2>
+						<p>Treat backing services as attached resources</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>2 kinds of <strong>backing service</strong> (any service the app consumes over the network):
+								<ul>
+								  <li class="fragment">locally-managed services (e.g. MySQL, RabbitMQ)</li>
+								  <li class="fragment">third-parties services (e.g. New Relic, Amazon S3)</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>Make no distinction</strong> between them</li>
+							<li class="fragment">Both are <strong>attached resources</strong>, accessed via a URL or other locator/credentials stored in the config<br/><img src="images/attached-resources.png" /></li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<section>
+						<h2>V. Build, release, run</h2>
+						<p>Strictly separate build and run stages</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>3 stages to transform a <strong>codebase</strong> into a <strong>deploy</strong>:
+								<ul>
+								  <li class="fragment">The build stage (compile binaries/assets of a given commit, fetch dependencies)</li>
+								  <li class="fragment">The release stage (combine the build with the env config)</li>
+								  <li class="fragment">The run stage (run processes of a given release)</li>
+								</ul>
+							</li>
+							<li class="fragment">Use <strong>strict separation</strong> between these stages</li>
+							<li class="fragment">Deployment tools typically offer release management tools (rollback)</li>
+							<li class="fragment">Unlike the build, the run stage must be kept simple</li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<section>
+						<h2>VI. Processes</h2>
+						<p>Execute the app as one or more stateless processes</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Applications are <strong>stateless</strong> and independent</li>
+							<li class="fragment">Any data that needs to persist must be stored in a stateful <strong>backing service</strong></li>
+							<li class="fragment">The memory space or filesystem of the process can be used as a brief, single-transaction cache.</li>
+							<li class="fragment">Use <strong>time-expiration databases</strong> for "sticky sessions"</li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<section>
+						<h2>VII. Port binding</h2>
+						<p>Export services via port binding</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Web apps are sometimes executed inside a webserver container (e.g. <a href="#">mod_php</a>, <a href="#">Tomcat</a>)</li>
+							<li class="fragment">Develop completely <strong>self-contained apps</strong> that exports HTTP as a service by binding to a port</li>
+							<li class="fragment">Use dependency declaration to add a <strong>webserver library</strong> to the app (e.g. <a href="#">Tornado</a>, <a href="#">Puma</a>, <a href="#">Jetty</a>)</li>
+						</ul>
+
+						<pre class="fragment"><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+upstream api {
+  server 172.17.0.1:5000; # application port binding
+  server 172.17.0.2:5000;
+}
+
+server {
+  listen 80;
+  server_name api.clermontech.org;
+  root /usr/local/share/api;
+
+  location / {
+    proxy_pass http://api; # match the name of upstream directive which is defined above
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+}
+
+						</code></pre>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<section>
+						<h2>VIII. Concurrency</h2>
+						<p>Scale out via the process model</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Use <strong>unix process model</strong> to run server-side programs (upstart, launchd)</li>
+							<li class="fragment">Architect your app to handle diverse workloads by assigning each type of work to a <strong>process type</strong>:
+								<ul>
+									<li class="fragment">HTTP requests are handled by a <strong>web process</strong></li>
+									<li class="fragment">Long-running background tasks handled by a <strong>worker process</strong></li>
+								</ul>
+							<li class="fragment">Adding more concurrency is a <strong>simple and reliable</strong> operation (share-nothing nature)<br/><img src="images/process-types.png" /></li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<section>
+						<h2>IX. Disposability</h2>
+						<p>Maximize robustness with fast startup and graceful shutdown</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Processes are <strong>disposable</strong>: can be started or stopped anytime</li>
+							<li class="fragment">Minimize <strong>startup time</strong></li>
+							<li class="fragment"><strong>Graceful shutdown</strong> with SIGTERM:
+								<ul>
+									<li class="fragment">Web processes refuse new requests, wait for current requests to finish and exit</li>
+									<li class="fragment">Worker processes return the current job to the work queue (reentrancy, idempotence)</li>
+								</ul>
+							</li>
+							<li class="fragment">Process are robust against <strong>sudden death</strong></li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<section>
+						<h2>X. Dev/prod parity</h2>
+						<p>Keep development, staging, and production as similar as possible</p>
+					</section>
+
+					<section>
+						<ul class="large">
+							<li>Historically, 3 gaps between development and production:
+								<ul class="classic">
+									<li class="fragment">The <strong>time</strong> gap</li>
+									<li class="fragment">The <strong>personnel</strong> gap</li>
+									<li class="fragment">The <strong>tools</strong> gap</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>Continuous deployment</strong> to keep these gaps small
+								<table class="fragment" style="font-size:0.8em">
+								  <tbody>
+								  <tr style="border-bottom:1px">
+								    <th>
+								    </th><th>Traditional app</th>
+								    <th>Twelve-factor app</th>
+								  </tr>
+								  <tr>
+								    <th>Time between deploys</th>
+								    <td>Weeks</td>
+								    <td class="fragment"><a href="#">Hours</a></td>
+								  </tr>
+								  <tr>
+								    <th>Code authors vs code deployers</th>
+								    <td>Different people</td>
+								    <td class="fragment"><a href="#">Same people</a></td>
+								  </tr>
+								  <tr>
+								    <th>Dev vs production environments</th>
+								    <td>Divergent</td>
+								    <td class="fragment"><a href="#">As similar as possible</a></td>
+								  </tr>
+								</tbody></table>
+							</li>
+							<li class="fragment">Resists the urge to use <strong>different</strong> backing services between development and production</li>
+							<li class="fragment">Chef, Puppet provisioning tools + Virtual env with Vagrant (Docker, Virtualbox)</li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<section>
+						<h2>XI. Logs</h2>
+						<p>Treat logs as event streams</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>Logs are the stream of aggregated, time-ordered events collected from the output streams of all running processes and backing services</li>
+							<li class="fragment">Apps never concern themselves with <strong>routing or storage</strong> of its output stream</li>
+							<li class="fragment">Each running process writes its event stream, unbuffered, to <strong>stdout</strong></li>
+							<li class="fragment"><strong>Routing</strong> via open-source log routers (<a href="#">Logplex</a> and <a href="#">Fluent</a>)</li>
+							<li class="fragment"><strong>Storage</strong> via files or log indexing and analysis systems (<a href="#">Splunk</a>, <a href="#">Hadoop/Hive</a>)</li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<section>
+						<h2>XII. Admin processes</h2>
+						<p>Run admin/management tasks as one-off processes</p>
+					</section>
+
+					<section>
+						<ul>
+							<li>One-off administrative or maintenance tasks for the app:</li>
+							<ul>
+								<li class="fragment">Running database migrations 
+<pre><code>rake db:migrate
+manage.py syncdb
+</code></pre></li>
+								<li class="fragment">Running a console (a REPL shell) to run arbitrary code or inspect the app’s models against the live database.
+								<pre><code>irb
+rails console
+python</code></pre></li>
+								<li class="fragment">Running one-time scripts committed into the app’s repo
+<pre><code>php scripts/fix_bad_records.php</code></pre>
+</li>
+							</ul>
+							<li class="fragment">Thoses processes should be run in an <strong>identical</strong> environment, i.e. same codebase and config</li>
+							<li class="fragment">With the same dependency isolation techniques
+							<pre><code>bundle exec rake db:migrate
+bin/python manage.py syncdb
+</code></pre></li>
+						</ul>
+
+
+					</section>
+				</section>
+
+				<section data-transition="linear" data-background-transition="slide">
+					<h2>Resources</h2>
+					<ul>
+						<li>The Twelve-Factor App <br/> &#60;<a href="http://12factor.net/">12factor.net</a>&#62;</li>
+						<li>Heroku Dev Center <br/>&#60;<a href="https://devcenter.heroku.com/articles/architecting-apps/">devcenter.heroku.com/articles/architecting-apps</a>&#62;</li>
+					</ul>
+					<div class="fragment">
+						<hr  style="margin: 30px 0px 50px 0px;"/>
+						<h2>Jobs</h2>	
+						<p><a href="http://www.perfect-memory.com/fr/a-propos/#nos-offres">perfect-memory.com/fr/a-propos</a></p>
+					</div>		
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#csonfiguration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
